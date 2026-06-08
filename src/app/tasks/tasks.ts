@@ -1,15 +1,17 @@
 import { Component, input, computed, signal } from '@angular/core';
 import { Task } from './task/task';
+import { NewTask } from './new-task/new-task';
 
 @Component({
   selector: 'app-tasks',
-  imports: [Task],
+  imports: [Task, NewTask],
   templateUrl: './tasks.html',
   styleUrl: './tasks.css',
 })
 export class Tasks {
   name = input.required<string | undefined>();
   userId = input.required<string | undefined>();
+  isAddingTask = signal(false);
   tasks = signal([
     {
       id: 't1',
@@ -34,8 +36,27 @@ export class Tasks {
     },
   ]);
 
-  selectUserTasks = computed(() => this.tasks().filter((task) => task.userId === this.userId()));
+  selectedUserTasks = computed(() => this.tasks().filter((task) => task.userId === this.userId()));
   onCompleteTask(id: string) {
     this.tasks.update((tasks) => tasks.filter((task) => task.id !== id));
+  }
+  onAddTask() {
+    this.isAddingTask.set(true);
+  }
+  onCancelAddTask() {
+    this.isAddingTask.set(false);
+  }
+  onAddNewTask(newTask: { title: string; summary: string; dueDate: string }) {
+    this.tasks.update((tasks) => [
+      ...tasks,
+      {
+        id: `t${Math.random()}`,
+        userId: this.userId()!,
+        title: newTask.title,
+        summary: newTask.summary,
+        dueDate: newTask.dueDate,
+      },
+    ]);
+    this.isAddingTask.set(false);
   }
 }
