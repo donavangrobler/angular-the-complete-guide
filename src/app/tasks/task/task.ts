@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 interface TaskType {
   id: string;
@@ -16,4 +16,9 @@ interface TaskType {
 })
 export class Task {
   task = input.required<TaskType>();
+  complete = output<string>();
+
+  onCompleteTask() {
+    this.complete.emit(this.task().id);
+  }
 }

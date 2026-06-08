@@ -21,6 +21,7 @@ export class User {
   // @Input({ required: true }) user!: { id: string; avatar: string; name: string };
 
   user = input.required<UserType>();
+  selected = input<boolean>(false);
   select = output<string>();
   imagePath = computed(() => `assets/users/${this.user().avatar}`);
 
