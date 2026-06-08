@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-tasks',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './tasks.html',
   styleUrl: './tasks.css',
 })
-export class Tasks {}
+export class Tasks {
+  name = input.required<string | undefined>();
+}
